@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
-# Installs nginx and serves a page containing Holberton School on port 80
-if [ "$(id -u)" -ne 0 ]; then SUDO="sudo"; else SUDO=""; fi
-export DEBIAN_FRONTEND=noninteractive
-$SUDO apt-get update -y
-$SUDO apt-get install -y nginx
-echo "Holberton School" | $SUDO tee /var/www/html/index.html > /dev/null
-$SUDO service nginx restart
+# Installs nginx and serves a page containing "Holberton School"
+sudo apt-get update -y
+sudo apt-get install -y nginx
+echo "Holberton School" | sudo tee /var/www/html/index.html > /dev/null
+sudo service nginx restart
