@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Runs nginx as the nginx user and listening on port 8080
+pkill -x nginx
+sleep 1
+sed -i 's/^user .*;/user nginx;/' /etc/nginx/nginx.conf
+sed -i 's/\(listen.*[ :]\)80 default_server/\18080 default_server/' /etc/nginx/sites-available/default
+chown -R nginx:nginx /var/log/nginx /var/lib/nginx
+touch /run/nginx.pid
+chown nginx:nginx /run/nginx.pid
+su -s /bin/bash nginx -c "/usr/sbin/nginx"
