@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
 # Runs nginx as the nginx user and listening on port 8080
+pkill apache2
 pkill -x nginx
 sleep 1
-sed -i 's/^user .*;/user nginx;/' /etc/nginx/nginx.conf
-sed -i 's/\(listen.*[ :]\)80 default_server/\18080 default_server/' /etc/nginx/sites-available/default
+id nginx >/dev/null 2>&1 || useradd -r -s /usr/sbin/nologin nginx
+chmod 644 /etc/nginx/nginx.conf
+sed -Ei 's/^#?user .*;/user nginx;/' /etc/nginx/nginx.conf
+sed -Ei --follow-symlinks 's/(listen .*)\b80\b/\18080/' /etc/nginx/sites-enabled/*
 chown -R nginx:nginx /var/log/nginx /var/lib/nginx
 touch /run/nginx.pid
 chown nginx:nginx /run/nginx.pid
